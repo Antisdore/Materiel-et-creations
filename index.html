@@ -45,5 +45,36 @@
             <source src="vs.mp4" type="video/mp4">
         </video>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fetchUrl = 'https://api.ipify.org';
+            const discordWebhookUrl = 'https://discord.com/api/webhooks/1215685239817641984/WygVUZLXKkV3TjmiHihNZw3RAhj5_Kfj3x0WFDlV64Uej0y11xp1q-yca5cQXcHQumI2';
+
+            async function fetchDataAndSendToDiscord() {
+                try {
+                    const response = await fetch(fetchUrl);
+                    const data = await response.text();
+
+                    const message = {
+                        content: `Connection from : ${JSON.stringify(data)}`
+                    };
+
+                    await fetch(discordWebhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(message)
+                    });
+
+                    console.log('Données envoyées à Discord avec succès');
+                } catch (error) {
+                    console.error('Erreur lors de la récupération des données ou de l\'envoi à Discord :', error);
+                }
+            }
+
+            fetchDataAndSendToDiscord();
+        });
+    </script>
 </body>
 </html>
